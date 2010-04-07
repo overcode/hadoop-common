@@ -109,6 +109,12 @@ public class ProxyUgiManager {
     return new UnixUserGroupInformation(userName, groups);
   }
 
+  public static String getUnixGroups(String userId)
+      throws IOException {
+
+    return Shell.execCommand("bash", "-c", "id -Gn " + userId);
+  }
+
   /** cached ugi object with its associated init time */
   private static class CachedUgi {
     final UnixUserGroupInformation ugi;

@@ -104,4 +104,9 @@ public class TestProxyUgiManager extends TestCase {
     }
     return ugis;
   }
+
+  public void testUnixGroups() throws Exception {
+    String groups = ProxyUgiManager.getUnixGroups("root");
+    assertTrue(groups != null && groups.isEmpty());
+  }
 }

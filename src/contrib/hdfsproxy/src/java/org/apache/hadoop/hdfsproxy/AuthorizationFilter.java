@@ -50,7 +50,6 @@ public class AuthorizationFilter implements Filter {
   }
 
   /** {@inheritDoc} **/
-  @SuppressWarnings("unchecked")
   public void doFilter(ServletRequest request,
                        ServletResponse response,
                        FilterChain chain)
@@ -64,7 +63,7 @@ public class AuthorizationFilter implements Filter {
     List<Path> allowedPaths = getAllowedPaths(request);
 
     UserGroupInformation ugi = new UnixUserGroupInformation(userId,
-        groups.split(","));
+        groups.split(" "));
 
     String filePath = getPathFromRequest(rqst);
 
@@ -92,9 +91,9 @@ public class AuthorizationFilter implements Filter {
     return userId;
   }
 
-  protected String getGroups(ServletRequest rqst) {
-    return (String) rqst.
-        getAttribute("org.apache.hadoop.hdfsproxy.authorized.role");
+  protected String getGroups(ServletRequest rqst) throws IOException {
+    String userId = getUserId(rqst);
+    return ProxyUgiManager.getUnixGroups(userId);
   }
 
   @SuppressWarnings("unchecked")
@@ -120,7 +119,10 @@ public class AuthorizationFilter implements Filter {
     return filePath;
   }
 
-  /** check that the requested path is listed in the ldap entry */
+  /** check that the requested path is listed in the ldap entry
+   * @param pathInfo - Path to check access
+   * @param allowedPaths - List of paths allowed access
+   * @return true if access allowed, false otherwise */
   protected boolean checkHdfsPath(String pathInfo, List<Path> allowedPaths) {
     if (pathInfo == null || pathInfo.length() == 0) {
       LOG.info("Can't get file path from the request");
