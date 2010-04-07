@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.security.UnixUserGroupInformation;
 import org.apache.hadoop.security.UserGroupInformation;
+import org.apache.hadoop.conf.Configuration;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +31,13 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class AuthorizationFilter implements Filter {
   public static final Log LOG = LogFactory.getLog(LdapIpDirFilter.class);
+
+  private static final Pattern HDFS_PATH_PATTERN = Pattern
+      .compile("(^hdfs://([\\w\\-]+(\\.)?)+:\\d+|^hdfs://([\\w\\-]+(\\.)?)+)");
 
   /** Pattern for a filter to find out if a request is HFTP/HSFTP request */
   protected static final Pattern HFTP_PATTERN = Pattern
@@ -45,8 +50,14 @@ public class AuthorizationFilter implements Filter {
   protected static final Pattern FILEPATH_PATTERN = Pattern
       .compile("^(/listPaths|/data|/file)$");
 
+  protected String namenode;
+
   /** {@inheritDoc} **/
   public void init(FilterConfig filterConfig) throws ServletException {
+    Configuration conf = new Configuration(false);
+    conf.addResource("hdfsproxy-default.xml");
+    conf.addResource("hdfsproxy-site.xml");
+    namenode = conf.get("fs.default.name");
   }
 
   /** {@inheritDoc} **/
@@ -121,23 +132,44 @@ public class AuthorizationFilter implements Filter {
 
   /** check that the requested path is listed in the ldap entry
    * @param pathInfo - Path to check access
-   * @param allowedPaths - List of paths allowed access
+   * @param ldapPaths - List of paths allowed access
    * @return true if access allowed, false otherwise */
-  protected boolean checkHdfsPath(String pathInfo, List<Path> allowedPaths) {
+  protected boolean checkHdfsPath(String pathInfo,
+                                  List<Path> ldapPaths) {
     if (pathInfo == null || pathInfo.length() == 0) {
       LOG.info("Can't get file path from the request");
       return false;
     }
-    Path userPath = new Path(pathInfo);
-    while (userPath != null) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("\n Checking file path " + userPath);
-      }
-      if (allowedPaths.contains(userPath))
-        return true;
-      userPath = userPath.getParent();
+    for (Path ldapPathVar : ldapPaths) {
+      String ldapPath = ldapPathVar.toString();
+      if (isPathQualified(ldapPath) &&
+          isPathAuthroized(ldapPath)) {
+        String allowedPath = extractPath(ldapPath);
+        if (pathInfo.startsWith(allowedPath))
+          return true;
+      } else {
+        if (pathInfo.startsWith(ldapPath))
+          return true;
+       }
     }
     return false;
+  }
+
+  private String extractPath(String ldapPath) {
+    return HDFS_PATH_PATTERN.split(ldapPath)[1];
+  }
+
+  private boolean isPathAuthroized(String pathStr) {
+    Matcher namenodeMatcher = HDFS_PATH_PATTERN.matcher(pathStr);
+    return namenodeMatcher.find() && namenodeMatcher.group().contains(namenode);
+  }
+
+  private boolean isPathQualified(String pathStr) {
+    if (pathStr == null || pathStr.trim().isEmpty()) {
+      return false;
+    } else {
+      return HDFS_PATH_PATTERN.matcher(pathStr).find();
+    }
   }
 
   /** {@inheritDoc} **/
