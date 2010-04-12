@@ -6,7 +6,7 @@ the patches applied from issues referenced in CHANGES.txt.
 
 yahoo-hadoop-0.20.9
 
-    MAPREDUCE-1505. Removes JNI calls to get jvm current/max heap usage in
+    MAPREDUCE-1683. Removes JNI calls to get jvm current/max heap usage in
     ClusterStatus by default. (acmurthy) 
     
     MAPREDUCE-1505. Delays construction of the job client until it is really
