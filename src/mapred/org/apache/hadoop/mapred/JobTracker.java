@@ -292,7 +292,9 @@ public class JobTracker implements MRConstants, InterTrackerProtocol,
           // Every 3 minutes check for any tasks that are overdue
           Thread.sleep(TASKTRACKER_EXPIRY_INTERVAL/3);
           long now = System.currentTimeMillis();
-          LOG.debug("Starting launching task sweep");
+          if(LOG.isDebugEnabled()) {
+            LOG.debug("Starting launching task sweep");
+          }
           synchronized (JobTracker.this) {
             synchronized (launchingTasks) {
               Iterator<Map.Entry<TaskAttemptID, Long>> itr =
@@ -2396,7 +2398,9 @@ public class JobTracker implements MRConstants, InterTrackerProtocol,
     }
     taskset.add(taskid);
       
-    LOG.debug("Marked '" + taskid + "' from '" + taskTracker + "'");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Marked '" + taskid + "' from '" + taskTracker + "'");
+    }
   }
 
   /**
@@ -3010,7 +3014,9 @@ public class JobTracker implements MRConstants, InterTrackerProtocol,
         if (tasks != null) {
           for (Task task : tasks) {
             expireLaunchingTasks.addNewTask(task.getTaskID());
-            LOG.debug(trackerName + " -> LaunchTask: " + task.getTaskID());
+            if(LOG.isDebugEnabled()) {
+              LOG.debug(trackerName + " -> LaunchTask: " + task.getTaskID());
+            }
             actions.add(new LaunchTaskAction(task));
           }
         }
@@ -3313,7 +3319,9 @@ public class JobTracker implements MRConstants, InterTrackerProtocol,
           //
           if (!tip.getJob().isComplete()) {
             killList.add(new KillTaskAction(killTaskId));
-            LOG.debug(taskTracker + " -> KillTaskAction: " + killTaskId);
+            if (LOG.isDebugEnabled()) {
+              LOG.debug(taskTracker + " -> KillTaskAction: " + killTaskId);
+            }
           }
         }
       }
@@ -3336,7 +3344,9 @@ public class JobTracker implements MRConstants, InterTrackerProtocol,
    */
   private void addJobForCleanup(JobID id) {
     for (String taskTracker : taskTrackers.keySet()) {
-      LOG.debug("Marking job " + id + " for cleanup by tracker " + taskTracker);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Marking job " + id + " for cleanup by tracker " + taskTracker);
+      }
       synchronized (trackerToJobsToCleanup) {
         Set<JobID> jobsToKill = trackerToJobsToCleanup.get(taskTracker);
         if (jobsToKill == null) {
@@ -3386,8 +3396,10 @@ public class JobTracker implements MRConstants, InterTrackerProtocol,
           }
           if (tip.shouldCommit(taskId)) {
             saveList.add(new CommitTaskAction(taskId));
-            LOG.debug(tts.getTrackerName() + 
+            if (LOG.isDebugEnabled()) {
+              LOG.debug(tts.getTrackerName() + 
                       " -> CommitTaskAction: " + taskId);
+            }
           }
         }
       }

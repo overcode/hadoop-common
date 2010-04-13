@@ -6,6 +6,10 @@ the patches applied from issues referenced in CHANGES.txt.
 
 yahoo-hadoop-0.20.9
 
+    MAPREDUCE-1533. Incremental enhancements to the JobTracker to optimize
+    heartbeat handling. (Amar Kamat, Ravi Gummadi and Vinod Kumar Vavilapalli
+    via acmurthy)
+    
     MAPREDUCE-1680. Add a metric to track number of heartbeats processed by
     the JobTracker. (Richard King via acmurthy) 
     
