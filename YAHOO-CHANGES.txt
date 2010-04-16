@@ -6,6 +6,9 @@ the patches applied from issues referenced in CHANGES.txt.
 
 yahoo-hadoop-0.20.10
 
+    MAPREDUCE-1683. Fixed jobtracker web-ui to correctly display heap-usage.
+    (acmurthy) 
+    
     MAPREDUCE-1533. Incremental enhancements to the JobTracker to optimize
     heartbeat handling. (Amar Kamat, Ravi Gummadi and Vinod Kumar Vavilapalli
     via acmurthy)
