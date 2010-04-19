@@ -3371,7 +3371,9 @@ public class JobTracker implements MRConstants, InterTrackerProtocol,
       List<TaskTrackerAction> killList = new ArrayList<TaskTrackerAction>();
       for (JobID killJobId : jobs) {
         killList.add(new KillJobAction(killJobId));
-        LOG.debug(taskTracker + " -> KillJobAction: " + killJobId);
+        if(LOG.isDebugEnabled()) {
+          LOG.debug(taskTracker + " -> KillJobAction: " + killJobId);
+        }
       }
 
       return killList;

@@ -201,16 +201,14 @@ public class Counters implements Writable, Iterable<Counters.Group> {
      * counters within.
      */
     public String makeEscapedCompactString() {
-      String[] subcountersArray = new String[2 + subcounters.size()];
+      String[] subcountersArray = new String[subcounters.size()];
 
       // First up, obtain the strings that need escaping. This will help us
       // determine the buffer length apriori.
       String escapedName = escape(getName());
       String escapedDispName = escape(getDisplayName());
-      int length = 0, i = 0;
-      subcountersArray[i++] = escapedName;
-      subcountersArray[i++] = escapedDispName;
-      length += escapedName.length() + escapedDispName.length();
+      int i = 0;
+      int length = escapedName.length() + escapedDispName.length();
       for (Counter counter : subcounters.values()) {
         String escapedStr = counter.makeEscapedCompactString();
         subcountersArray[i++] = escapedStr;
