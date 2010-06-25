@@ -1,0 +1,59 @@
+---
+layout: default
+title: Yahoo! Distribution of Hadoop
+---
+
+Apache Hadoop is a framework for processing large datasets (terabytes
+to petabytes) on large numbers of computers (up to 4000) and includes
+the Hadoop Distributed File System (HDFS) and a MapReduce computation
+framework. Yahoo has been the leading contributor to Hadoop since it
+split out of Apache Lucene and has been the primary motivator pushing
+Hadoop to ever larger scales.
+
+h2(#why).  Why Another Distribution of Hadoop
+
+Yahoo!(tm) runs some of the largest Hadoop clusters and spends the
+most effort to test Hadoop at scale, therefore users asked for the set
+of patches that we deploy. To satisfy that demand, we released the
+Yahoo!  Distribution of Hadoop. We believe this is the best tested and
+most stable version of Hadoop.
+
+Yahoo! does not generate revenue from selling Hadoop-based products or
+consulting services. Hadoop is business critical to Yahoo!  and is our
+primary data analysis platform. We currently have over 36,000
+computers running Hadoop in many clusters. Those clusters are used for
+science as well as production jobs.
+
+h2(#news).  What's New
+
+New Security Enhancements in Hadoop 0.20.104.1:
+
+* Strong user and server Kerberos-based authentication so that users can't 
+  impersonate each other.
+* RPC calls can be authenticated via Kerberos, tokens, or nothing.
+* Added access control lists for MapReduce jobs to control who can view or
+  kill the job.
+* Capability to run tasks as the submitting user.
+* Separate private and public distributed cache areas.
+* Ability to add private credentials to a job.
+* Lots of bug fixes.
+
+See "YAHOO-CHANGES.txt":releases/0.20.104.1/YAHOO-CHANGES.txt for full
+details. "Previous versions":download.html are also available.
+
+h2(#notices).  Credits & Notices
+
+* Yahoo! does not offer any support for the Yahoo! Distribution of Hadoop.
+* This distribution includes cryptographic software that is subject to
+  U.S. export control laws and applicable export and import laws of
+  other countries. BEFORE using any software made available from this
+  site, it is your responsibility to understand and comply with these
+  laws. This software is being exported in accordance with the Export
+  Administration Regulations. As of June 2009, you are prohibited from
+  exporting and re-exporting this software to Cuba, Iran, North Korea,
+  Sudan, Syria and any other countries specified by regulatory update
+  to the U.S. export control laws and regulations. Diversion contrary
+  to U.S. law is prohibited
+* Hadoop is a project of 
+!http://www.apache.org/images/asf-logo.gif(the Apache Software Foundation)!:http://www.apache.org
+

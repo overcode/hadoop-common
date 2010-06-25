@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <meta content='text/html;charset=UTF-8' http-equiv='Content-Type'>
+    <title>Yahoo! Distribution of Hadoop &mdash; {{ page.title }}</title>
+    <style type='text/css'>
+      @import 'css/default.css';
+      @import 'css/syntax.css';
+    </style>
+    <style media='print' type='text/css'>
+      @import 'css/print.css';
+    </style>
+    <meta content='Yahoo! Distribution of Hadoop' name='subject'>
+  </head>
+  <body>
+    <div id='wrap'>
+      <div id='header'>
+        <a href='http://hadoop.apache.org/' title="Apache Hadoop"><img alt='Apache Hadoop' src='images/hadoop+elephant.jpg'></a>
+      </div>
+      <div id='pages'>
+        <ol class='toc'>
+          <li>Start Here
+            <ol class="toc">
+              <li><a href='index.html'>Welcome</a></li>
+              <li><a href='installing.html'>Installing & Running</a></li>
+              <li><a href='download.html'>Download</a></li>
+            </ol>
+          </li>
+          <li>Release Documentation
+            <ol class="toc">
+              <li><a href='releases/0.20.104.1'>0.20.104.1 (beta)</a></li>
+              <li><a href='releases/0.20.10'>0.20.10 (stable)</a></li>
+            </ol>
+          </li>
+          <li>Get Involved
+            <ol class="toc">
+              <li><a href='mailing_lists.html'>Mailing Lists</a></li>
+              <li><a href='contributing.html'>Contributing</a></li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+      <div id='content'>
+        <h1 id='{{ page.title | downcase | replace(' ', '_') }}'>{{ page.title }}</h1>
+        {{ content | toc }}
+        {{ content }}
+      </div>
+      <div id='footer'>Copyright &copy; 2010 Yahoo!</div>
+    </div>
+  </body>
+</html>

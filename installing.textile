@@ -1,0 +1,297 @@
+---
+layout: default
+title: Installing and Running
+---
+
+h2(#overview). Overview
+
+This page describes how to perform a build of the
+Yahoo! Distribution of Hadoop, which is based on Apache
+Hadoop.  Questions can be directed to the user community at
+ydoh-users@yahoogroups.com. 
+
+h2(#platform). Platform Requirements
+
+Hadoop runs on Linux, Solaris, and Windows. Yahoo uses RedHat
+Enterprise Linux Server 5.4. 
+
+h3(#java). Java
+
+Hadoop requires either the 32 or 64 bit variants of Sun JDK. Yahoo
+currently runs 32 and 64 bit
+"JDK 6.0u12":http://java.sun.com/products/archive/j2se/6u12/ on
+its clusters. (The NameNode and JobTracker run 64 bit, the slaves run
+32 bit.) Please ensure the @JAVA_HOME@ environment variable is set to
+the correct directory.
+
+After installing Java, you must install support for stronger encryption.
+Download the
+"necessary files":https://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_Developer-Site/en_US/-/USD/ViewProductDetail-Start?ProductRef=jce_policy-6-oth-JPR@CDS-CDS_Developer
+from Sun. 
+
+bc. % unzip jce_policy-6.zip
+% cp -f jce/*.jar $JAVA_HOME/jre/lib/security/
+% chmod 444 $JAVA_HOME/jre/lib/security/*.jar
+
+ You need a copy of 
+"Java 5":http://java.sun.com/javase/downloads/index_jdk5.jsp to
+run Forrest. Unfortunately, Java 6 can not be used to run Forrest.
+
+h3(#ant). Ant
+
+Hadoop is built using Ant. Download Ant from 
+"Apache":http://ant.apache.org/bindownload.cgi. Hadoop requires
+a recent version of Ant, such as 1.8.1. 
+
+bc. export ANT_HOME=<build tool directory>/apache-ant-1.8.1
+export PATH=$ANT_HOME/bin:$PATH
+
+h3(#forrest). Forrest
+
+The documentation for Hadoop is generated using Forrest. You can
+download it from
+"Apache":http://forrest.apache.org/mirrors.cgi#closest.
+
+h3(#xerces). Xerces C
+
+You need version 2.8 of Xerces C installed. It is available from
+"Apache":http://xerces.apache.org/xerces-c/download.cgi. To
+build it, use (make sure that CFLAGS and CXXFLAGS are not set!):
+
+bc. % cd src/xercesc
+% ./runConfigure -rlinux
+% make
+
+h3(#eclipse). Eclipse
+
+You need to install Eclipse SDK, so that the Eclipse plugin can be built.
+Eclipse is available from "eclipse.org":http://www.eclipse.org/.
+
+h3(#kerberos). Kerberos
+
+The new security features depend on having a working Kerberos
+installation. Kerberos is available from 
+"MIT":http://web.mit.edu/Kerberos/dist/index.html. Yahoo runs
+MIT Kerberos 1.6.1. For RedHat, do:
+
+bc. % yum install krb5-server
+
+Configure Kerberos by editing /etc/krb5.conf to add your realm
+(eg. HADOOP.COM) and hosts (eg. kdc.hadoop.com).  It is recommended to
+turn off UDP for Kerberos. To disable UDP, change the @udp_preference@
+to 1 in the libdefaults section. It should look roughly like:
+
+bc.. [logging]
+ default = FILE:/var/log/krb5libs.log
+ kdc = FILE:/var/log/krb5kdc.log
+ admin_server = FILE:/var/log/kadmind.log
+
+[libdefaults]
+ default_realm = HADOOP.COM
+ dns_lookup_realm = false
+ dns_lookup_kdc = false
+ ticket_lifetime = 24h
+ forwardable = yes
+ udp_preference_limit = 1
+
+[realms]
+ HADOOP.COM = {
+  kdc = kdc.hadoop.com:88
+  admin_server = kdc.hadoop.com:749
+  default_domain = hadoop.com
+ }
+
+[domain_realm]
+ .hadoop.com = HADOOP.COM
+ hadoop.com = HADOOP.COM
+
+[appdefaults]
+ pam = {
+   debug = false
+   ticket_lifetime = 36000
+   renew_lifetime = 36000
+   forwardable = true
+   krb4_convert = false
+ }
+
+p. And edit /var/kerberos/krb5kdc/kdc.conf to add your realm.
+
+bc.. [kdcdefaults]
+ v4_mode = nopreauth
+ kdc_ports = 0
+ kdc_tcp_ports = 88
+
+[realms]
+ HADOOP.COM = {
+  #master_key_type = des3-hmac-sha1
+  acl_file = /var/kerberos/krb5kdc/kadm5.acl
+  dict_file = /usr/share/dict/words
+  admin_keytab = /var/kerberos/krb5kdc/kadm5.keytab
+  supported_enctypes = des3-hmac-sha1:normal arcfour-hmac:normal des-hmac-sha1:normal des-cbc-md5:normal des-cbc-crc:normal des-cbc-crc:v4 des-cbc-crc:afs3
+ }
+
+p. Create your key database:
+
+bc. % /usr/kerberos/sbin/kdb5_util create -s
+
+Finally, set the KDC to be run automatically when the system starts.
+
+bc. % /sbin/chkconfig krb5kdc on
+% /etc/rc.d/init.d/krb5kdc start
+
+See the Kerberos documentation for setting up user and admin
+principals.
+
+h3(#jsvc). JSVC
+
+The DataNodes need to use restricted ports for their data
+pipeline.  Rather than run the entire DataNode as root, we use jsvc to
+run the setup as root. Download the binary from
+"Apache":http://www.apache.org/dist/commons/daemon/binaries/1.0.2/linux/. Move
+the jsvc executable into the @$HADOOP_HOME/bin@
+
+h2(#obtain). Obtaining the Source
+
+The source code can be downloaded from github, using:
+
+bc. % git clone git://github.com/yahoo/hadoop-common.git ydoh
+
+will use "git":http://git-scm.com/ to download the source code
+into a directory named ydoh.
+
+h2(#build). Building
+
+Although Hadoop is mostly written in the Java Programming Language,
+there are a number of native libraries written in C and C++ that need
+to be compiled.  The following build instructions are taken from
+"HowToRelease Wiki":http://wiki.apache.org/hadoop/HowToRelease
+and describe how to build a tar file containing documentation and
+32-bit  or 64-bit native libraries on Linux.  Before running the following 
+commands, you will need to setup your build machine according to
+"Native Hadoop Wiki":http://wiki.apache.org/hadoop/NativeHadoop.
+
+In the ydoh directory, create a file named build.properties. It
+contains pointers to the tools that are necessary to build Hadoop.
+
+bc. java5.home=<build tool directory>/jdk1.5.0_22
+forrest.home=<build tool directory>/apache-forrest-0.8
+ant.home=<build tool directory>/apache-ant-1.8.1
+xercescroot=<build tool directory>/xerces-c-src_2_8_0
+eclipse.home=<build tool directory>/eclipse
+
+Build the release:
+
+bc.. % export JAVA_HOME=<build tool directory>/jdk1.6.0._12
+% export CFLAGS=-m32 (or 64)
+% export CXXFLAGS=-m32 (or 64)
+
+% ant -Dversion=0.20.104.1 -Dcompile.native=true \
+  -Dcompile.c++=true -Dlibhdfs=1 -Dlibrecordio=true \
+  clean task-controller tar
+
+p. Once build above is complete, you will find a tar file in the build
+directory.
+
+h2(#user). Create the server users
+
+h3(#accounts). Unix Accounts
+
+Create Unix accounts to run HDFS and MapReduce. 
+
+bc. % adduser hdfs
+% adduser mapred 
+
+It is convenient to add them both to a @hadoop@
+group.  Additionally, the @mapred@ user must be the only member
+of a @mapred@ group to enable secure use of the task launcher.
+
+h3(#dirs). Create the logs and pid directories
+
+Create the log and pid directories with permission only to the hadoop
+users (hdfs and mapred).
+
+bc. % mkdir /var/local/hadoop
+% mkdir /var/local/hadoop/{hdfs,mapred,logs,pid}
+% chgrp -R hadoop /var/local/hadoop
+% chown hdfs:hadoop /var/local/hadoop/hdfs
+% chown mapred:hadoop /var/local/hadoop/mapred
+% chmod 755 /var/local/hadoop
+% chmod 700 /var/local/hadoop/hdfs
+% chmod 755 /var/local/hadoop/mapred
+% chmod 770 /var/local/hadoop/{logs,pid}
+
+h3(#keytab). Creating the KeyTabs
+
+For each NameNode or Secondary NameNode, you need a
+@host/<hostname>@ and @hdfs/<hostname>@ a hostname-specific
+principal. For the JobTracker host, you need a
+@mapred/<hostname>@ principal. Finally, the slaves need @hdfs/<hostname>@ and 
+@mapred/<hostname>@.  Use kadmin to create the
+Kerberos principals (replacing nn and jt.hadoop.com):
+
+bc. % sudo /usr/kerberos/sbin/kadmin.local
+kadmin.local: addprinc -randkey host/nn.hadoop.com 
+kadmin.local: addprinc -randkey hdfs/nn.hadoop.com
+kadmin.local: xst -k hdfs.keytab hdfs/nn.hadoop.com \
+                  host/nn.hadoop.com
+kadmin.local: addprinc -randkey mapred/jt.hadoop.com 
+kadmin.local: xst -k mapred.keytab \
+                  mapred/jt.hadoop.com
+
+On each host, put hdfs.keytab and mapred.keytab into /var/local/hadoop
+owned and only readable by hdfs and mapred respectively.
+
+bc. % cp hdfs.keytab mapred.keytab /var/local/hadoop/
+% chown hdfs:hadoop /var/local/hadoop/hdfs.keytab
+% chown mapred:hadoop /var/local/hadoop/mapred.keytab
+% chmod 500 /var/local/hadoop/*.keytab
+
+h2(#install). Installing Hadoop
+
+Expand the tarball as root. It is important to change the permissions
+of the task-controller to enable secure launching of tasks as the user.
+
+bc. % tar xzvf hadoop-0.20.104.1.tar.gz
+% cd hadoop-0.20.104.1
+% chown root:mapred bin/task-controller
+% chmod 6550 bin/task-controller
+
+h2(#conf). Configuration
+
+Untar the sample configuration into the correct location:
+bc. % tar xzvf <hadoop build direction>/sample-conf.tgz
+
+First, edit @$HADOOP_CONF_DIR/hadoop-env.sh@, which is used to
+specify the locations of required components.
+
+Edit @$HADOOP_CONF_DIR/core-site.xml@ to point to the correct
+hosts. I suggest defining the local realm and hosts as separate
+variables that are referenced by the other values.
+
+Look through the hdfs-site.xml and mapred-site.xml to make any desired changes.
+
+The task controller uses its own configuration. This configuration file
+must be owned by root @$HADOOP_CONF_DIR/task-controller.cfg@.
+
+bc. mapred.local.dir=/var/local/hadoop/mapred
+mapreduce.tasktracker.group=mapred
+hadoop.log.dir=/var/local/hadoop/logs
+
+h2(#startup). Starting up Servers
+
+The NameNode should be started up first as the hdfs user. Followed by
+all of the DataNodes as root. Finally, the JobTracker and TaskTrackers
+should be started as mapred.
+
+bc. % ssh -l hdfs nn.hadoop.com hadoop-daemon.sh start namenode
+% ssh -l root slave1.hadoop.com hadoop-daemon.sh start datanode
+% ssh -l mapred jt.hadoop.com hadoop-daemon.sh start jobtracker
+% ssh -l mapred slave1.hadoop.com hadoop-daemon.sh start tasktracker
+
+h2(#addon). Additional add-ons
+
+Additional tools are likely of interest. In particular,
+* pig
+* gpl compression codecs
+* oozie
+

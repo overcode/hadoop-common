@@ -1,0 +1,21 @@
+---
+layout: default
+title: Contributing
+---
+
+The Yahoo! Distribution of Hadoop is the version of Hadoop that Yahoo
+runs on its clusters. We contribute all of work into the trunk of
+Hadoop, but generally don't accept patches except via Hadoop.
+
+h2(#involved).  Getting involved
+
+Please contribute all patches and improvements to 
+"Apache Hadoop":http://hadoop.apache.org. Apache focuses on building active
+communities of developers working on common projects, including Hadoop.
+
+h2(#github). GitHub
+
+You are also welcome to fork or clone the "Yahoo! Distribution of
+Hadoop":http://github.com/yahoo/hadoop-common, which is based on the
+Apache distribution.
+

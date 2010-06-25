@@ -1,0 +1,33 @@
+---
+layout: default
+title: Mailing Lists
+---
+
+<form action="http://hadoop.markmail.org/search/">Search all Hadoop archives: <input type="text" name="q" size="50"/> <input type="submit" value="Search"/></form><br/>
+
+|_. users       |_. For questions on the Yahoo! Distribution of Hadoop |
+| Post          | "ydoh-users@yahoogroups.com":mailto:ydoh-users@yahoogroups.com |
+|_. users       |_. For users of Hadoop Common |
+| Post          | "common-user@hadoop.apache.org":mailto:common-user@hadoop.apache.org |
+| Subscribe     | "common-user-subscribe@hadoop.apache.org":mailto:common-user-subscribe@hadoop.apache.org |
+| Unsubscribe   | "common-user-unsubscribe@hadoop.apache.org":mailto:common-user-unsubscribe@hadoop.apache.org |
+|_. users       |_. For users of HDFS |
+| Post          | "hdfs-user@hadoop.apache.org":mailto:hdfs-user@hadoop.apache.org |
+| Subscribe     | "hdfs-user-subscribe@hadoop.apache.org":mailto:hdfs-user-subscribe@hadoop.apache.org |
+| Unsubscribe   | "hdfs-user-unsubscribe@hadoop.apache.org":mailto:hdfs-user-unsubscribe@hadoop.apache.org |
+|_. users       |_. For users of Hadoop MapReduce |
+| Post          | "mapreduce-user@hadoop.apache.org":mailto:mapreduce-user@hadoop.apache.org |
+| Subscribe     | "mapreduce-user-subscribe@hadoop.apache.org":mailto:mapreduce-user-subscribe@hadoop.apache.org |
+| Unsubscribe   | "mapreduce-user-unsubscribe@hadoop.apache.org":mailto:mapreduce-user-unsubscribe@hadoop.apache.org |
+|_. devs       |_. For devs of Hadoop Common |
+| Post          | "common-dev@hadoop.apache.org":mailto:common-dev@hadoop.apache.org |
+| Subscribe     | "common-dev-subscribe@hadoop.apache.org":mailto:common-dev-subscribe@hadoop.apache.org |
+| Unsubscribe   | "common-dev-unsubscribe@hadoop.apache.org":mailto:common-dev-unsubscribe@hadoop.apache.org |
+|_. devs       |_. For devs of HDFS |
+| Post          | "hdfs-dev@hadoop.apache.org":mailto:hdfs-dev@hadoop.apache.org |
+| Subscribe     | "hdfs-dev-subscribe@hadoop.apache.org":mailto:hdfs-dev-subscribe@hadoop.apache.org |
+| Unsubscribe   | "hdfs-dev-unsubscribe@hadoop.apache.org":mailto:hdfs-dev-unsubscribe@hadoop.apache.org |
+|_. devs       |_. For devs of Hadoop MapReduce |
+| Post          | "mapreduce-dev@hadoop.apache.org":mailto:mapreduce-dev@hadoop.apache.org |
+| Subscribe     | "mapreduce-dev-subscribe@hadoop.apache.org":mailto:mapreduce-dev-subscribe@hadoop.apache.org |
+| Unsubscribe   | "mapreduce-dev-unsubscribe@hadoop.apache.org":mailto:mapreduce-dev-unsubscribe@hadoop.apache.org |
