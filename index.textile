@@ -5,11 +5,11 @@ title: Yahoo! Distribution of Hadoop
 
 h2(#intro). Introduction
 
-Apache Hadoop is an open source Java framework for processing and querying vast amounts of data on large clusters of commodity hardware. Hadoop is a top level Apache project, initiated and led by Yahoo!. It relies on an active community of contributors from all over the world for its success.
+Apache Hadoop(tm) is an open source Java framework for processing and querying vast amounts of data on large clusters of commodity hardware. Hadoop is a top level Apache project, initiated and led by Yahoo!. It relies on an active community of contributors from all over the world for its success.
 
 With a significant technology investment by Yahoo!, Apache Hadoop has become an enterprise-ready cloud computing technology. It is gradually becoming the industry de facto framework for big data processing.
 
-The Hadoop project is at the heart of many of Yahoo?s important business processes and an integral part of the Yahoo Cloud infrastructure.
+The Hadoop project is at the heart of many of Yahoo's important business processes and an integral part of the Yahoo Cloud infrastructure.
 
 We run the world's largest Hadoop clusters, work with academic institutions and other large corporations on advanced cloud computing research and our engineers are the leading participants in the Hadoop community.
 
