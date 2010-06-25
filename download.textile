@@ -11,11 +11,9 @@ The "Yahoo! Hadoop 0.20.104.1":http://github.com/yahoo/hadoop-common/tarball/yah
 
 h3. Hadoop 0.20 (yahoo-hadoop-0.20)
 
-The "Yahoo Hadoop 0.20.10":http://github.com/yahoo/hadoop-common/tarball/yahoo-hadoop-0.20.10 is currently deployed on Yahoo!'s production and includes massive improvements to the Capacity MapReduce scheduler that we use at Yahoo!
+The "Yahoo Hadoop 0.20.10":http://github.com/yahoo/hadoop-common/tarball/yahoo-hadoop-0.20.10 is considered *production* and has been deployed on Yahoo's production clusters. It includes massive improvements to the Capacity MapReduce scheduler that we use at Yahoo!
 
 h2(#repository). Version control repository
 
-The source code git repository is available on
-"github":http://github.com/yahoo/hadoop-common/. It contains the branches for both the yahoo-hadoop-0.20 and yahoo-hadoop-0.20.1xx
-branches. It also contains the source for this site on the gh-pages branch.
+The source code git repository is available on "github":http://github.com/yahoo/hadoop-common/. It contains the branches for both the yahoo-hadoop-0.20 and yahoo-hadoop-0.20.1xx branches. It also contains the source for this site on the gh-pages branch.
 
