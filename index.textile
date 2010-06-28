@@ -17,7 +17,7 @@ Yahoo! sponsors the "Annual Hadoop Summit":http://hadoopsummit.org/ and the mont
 
 h2(#news).  What's New
 
-h3. Hadoop Distribution of Hadoop with security 0.20.104.1
+h3. Hadoop Distribution of Hadoop with security 0.20.104.2
 
 Hadoop with security is a significant update to the Yahoo! Distribution of Hadoop, which has been contributed to Apache Hadoop. This update integrates Hadoop with Kerberos, a mature open source authentication standard.
 
@@ -28,7 +28,7 @@ Hadoop with security provides:
 * Reduction of operational costs by consolidating hadoop clusters
 * Data collocation which enables a new class of applications
 
-See "YAHOO-CHANGES.txt":releases/0.20.104.1/YAHOO-CHANGES.txt for full details. "Previous versions":download.html are also available.
+See "YAHOO-CHANGES.txt":releases/0.20.104.2/YAHOO-CHANGES.txt for full details. "Previous versions":download.html are also available.
 
 h2(#notices).  Credits & Notices
 

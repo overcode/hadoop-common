@@ -5,7 +5,7 @@ title: Installing and Running
 
 h2(#overview). Overview
 
-This page describes how to perform a build of the Yahoo! Distribution of Hadoop, which is based on Apache Hadoop.  Questions can be directed to the user community at ydoh-users@yahoogroups.com. 
+This page describes how to perform a build of the Yahoo! Distribution of Hadoop, which is based on Apache Hadoop.  Questions can be directed to the user community at yhadoop-users@yahoogroups.com. 
 
 h2(#platform). Platform Requirements
 
@@ -117,20 +117,20 @@ principals.
 
 h2(#obtain). Obtaining the Source
 
-The source code can be downloaded from "github":http://github.com/yahoo/hadoop-common/tarball/yahoo-hadoop-0.20.104.1, using:
+The source code can be downloaded from "github":http://github.com/yahoo/hadoop-common/tarball/yahoo-hadoop-0.20.104.2, using:
 
-bc. % wget http://github.com/yahoo/hadoop-common/tarball/yahoo-hadoop-0.20.104.1
-% tar xzvf yahoo-hadoop-0.20.104.1.tgz
+bc. % wget http://github.com/yahoo/hadoop-common/tarball/yahoo-hadoop-0.20.104.2
+% tar xzvf yahoo-hadoop-0.20.104.2.tgz
 
 h3(#jsvc). JSVC
 
-The DataNodes need to use restricted ports for their data pipeline.  Rather than run the entire DataNode as root, we use jsvc to run the setup as root. Download the binary from "Apache":http://www.apache.org/dist/commons/daemon/binaries/1.0.2/linux/. Move the jsvc executable into the @yahoo-hadoop-0.20.104.1/bin@
+The DataNodes need to use restricted ports for their data pipeline.  Rather than run the entire DataNode as root, we use jsvc to run the setup as root. Download the binary from "Apache":http://www.apache.org/dist/commons/daemon/binaries/1.0.2/linux/. Move the jsvc executable into the @yahoo-hadoop-0.20.104.2/bin@
 
 h2(#build). Building
 
 Although Hadoop is mostly written in the Java Programming Language, there are a number of native libraries written in C and C++ that need to be compiled.  The following build instructions are taken from "HowToRelease Wiki":http://wiki.apache.org/hadoop/HowToRelease and describe how to build a tar file containing documentation and 32-bit  or 64-bit native libraries on Linux.  Before running the following commands, you will need to setup your build machine according to "Native Hadoop Wiki":http://wiki.apache.org/hadoop/NativeHadoop.
 
-In the yahoo-hadoop-0.20.104.1 directory, create a file named build.properties. It contains pointers to the tools that are necessary to build Hadoop.
+In the yahoo-hadoop-0.20.104.2 directory, create a file named build.properties. It contains pointers to the tools that are necessary to build Hadoop.
 
 bc. java5.home=<build tool directory>/jdk1.5.0_22
 forrest.home=<build tool directory>/apache-forrest-0.8
@@ -145,7 +145,7 @@ bc.. % export JAVA_HOME=<build tool directory>/jdk1.6.0._12
 % export CFLAGS=-m32 (or 64)
 % export CXXFLAGS=-m32 (or 64)
 
-% ant -Dversion=0.20.104.1 -Dcompile.native=true \
+% ant -Dversion=0.20.104.2 -Dcompile.native=true \
   -Dcompile.c++=true -Dlibhdfs=1 -Dlibrecordio=true \
   clean task-controller tar
 
@@ -201,8 +201,8 @@ h2(#install). Installing Hadoop
 
 Expand the tarball as root. It is important to change the permissions of the task-controller to enable secure launching of tasks as the user.
 
-bc. % tar xzvf hadoop-0.20.104.1.tar.gz
-% cd hadoop-0.20.104.1
+bc. % tar xzvf hadoop-0.20.104.2.tar.gz
+% cd hadoop-0.20.104.2
 % chown root:mapred bin/task-controller
 % chmod 6550 bin/task-controller
 
